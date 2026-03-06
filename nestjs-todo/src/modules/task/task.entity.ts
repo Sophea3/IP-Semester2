@@ -16,7 +16,7 @@ export class Task {
   createdAt: Date;
 
   @Column({ type: 'datetime', nullable: true })
-  completedAt: Date;
+  completedAt: Date | null;
 
   @ManyToOne(() => User, user => user.tasks, { onDelete: 'CASCADE' })
   user: User;

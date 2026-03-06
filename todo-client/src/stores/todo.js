@@ -22,24 +22,31 @@ export const useTodoStore = defineStore("todo", {
       }
     },
 
-    toggleStatus(id) {
+    async toggleStatus(id) {
       const foundIndex = this.todos.findIndex((t) => t.id == id);
       if (foundIndex >= 0) {
-        this.todos[foundIndex].completedAt =
-          this.todos[foundIndex].completedAt
-            ? null
-            : new Date().toISOString();
+        const todo = this.todos[foundIndex];
+        const isCompleting = !todo.completedAt;
+        try {
+          const endpoint = isCompleting ? `http://localhost:3100/tasks/${id}/done` : `http://localhost:3100/tasks/${id}/pending`;
+          await axios.patch(endpoint, {});
+          await this.fetchTodos();
+        } catch (error) {
+          console.error("Failed to toggle status:", error);
+        }
       }
     },
 
-    addTodo(todo) {
-      this.todos.push({
-        id: this.todos.length + 1,
-        name: todo,
-        description: "description",
-        createdAt: new Date().toISOString(),
-        completedAt: null,
-      });
+    async addTodo(todo) {
+      try {
+        await axios.post("http://localhost:3100/tasks", {
+          name: todo,
+          description: "description",
+        });
+        await this.fetchTodos();
+      } catch (error) {
+        console.error("Failed to add todo:", error);
+      }
     },
 
     clearAll() {

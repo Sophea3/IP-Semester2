@@ -34,13 +34,13 @@ export class TasksController {
   // Mark task as done
   @Patch('/:id/done')
   markTaskAsDone(@Param('id') id: string, @Body() body: any) {
-    return this.taskService.updateTask(Number(id), { ...body, status: 'done' });
+    return this.taskService.updateTask(Number(id), { completedAt: new Date() });
   }
 
   // Mark task as pending
   @Patch('/:id/pending')
   markTaskAsPending(@Param('id') id: string, @Body() body: any) {
-    return this.taskService.updateTask(Number(id), { ...body, status: 'pending' });
+    return this.taskService.updateTask(Number(id), { completedAt: null });
   }
 
   // Delete a task by ID
