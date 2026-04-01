@@ -20,11 +20,17 @@
 // export class AppModule {}
 
 
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReceiptsModule } from './receipts/receipts.module';
-import { Receipt } from './database/entities/receipt.entity';// ✅ import your controller
+import { Receipt } from './database/entities/receipt.entity';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { OrdersController } from './orders/orders.controller';
+import { NotificationsModule } from './notifications/notifications.module';
+import { CoreModule } from './core/core.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -38,8 +44,15 @@ import { OrdersController } from './orders/orders.controller';
       synchronize: true,
     }),
     ReceiptsModule,
+    NotificationsModule,
+    CoreModule,
   ],
-  controllers: [OrdersController], // ✅ register your controller here
-  providers: [],
+  controllers: [
+    AppController,      
+    OrdersController,   
+  ],
+  providers: [
+    AppService,         
+  ],
 })
 export class AppModule {}
