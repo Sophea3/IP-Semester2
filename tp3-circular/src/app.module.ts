@@ -1,35 +1,12 @@
-
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { ReceiptsModule } from './receipts/receipts.module';
-// import { Receipt } from './database/entities/receipt.entity';
-
-// @Module({
-//   imports: [
-//     TypeOrmModule.forRoot({
-//       type: 'sqlite', // or your DB type
-//       database: 'db.sqlite',
-//      entities: [Receipt],
-//      synchronize: true, // for dev only
-//    }),
-//     ReceiptsModule,
-//   ],
-//   controllers: [],
-//   providers: [],
-// })
-// export class AppModule {}
-
-
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { Receipt } from './database/entities/receipt.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { OrdersController } from './orders/orders.controller';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CoreModule } from './core/core.module';
+import { OrdersModule } from './orders/orders.module'; // ✅ IMPORT MODULE
 
 @Module({
   imports: [
@@ -46,13 +23,13 @@ import { CoreModule } from './core/core.module';
     ReceiptsModule,
     NotificationsModule,
     CoreModule,
+    OrdersModule, // ✅ ADD THIS
   ],
   controllers: [
-    AppController,      
-    OrdersController,   
+    AppController, // ✅ ONLY controllers here
   ],
   providers: [
-    AppService,         
+    AppService,
   ],
 })
 export class AppModule {}

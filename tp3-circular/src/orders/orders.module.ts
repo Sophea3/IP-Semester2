@@ -16,6 +16,7 @@ import { OrdersService } from './orders.service';
         },
       },
     ]),
+    NotificationsModule
     //forwardRef(() => NotificationsModule),
   ],
   controllers: [OrdersController],
