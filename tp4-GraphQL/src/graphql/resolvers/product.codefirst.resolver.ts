@@ -11,7 +11,8 @@ export class ProductCodeFirstResolver {
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService,
   ) {}
-
+  
+  
   @Query(() => [ProductType])
   products() {
     return this.productService.findAll();
@@ -22,13 +23,23 @@ export class ProductCodeFirstResolver {
     return this.productService.findOne(id);
   }
 
-  @Mutation(() => ProductType)
-  createProduct(@Args('input') input: CreateProductInput) {
-    return this.productService.create(input);
-  }
+ @Mutation(() => ProductType)
+createProduct(@Args('input') input: CreateProductInput) {
+  return this.productService.create(input);
+}
 
-  @ResolveField(() => CategoryType, { nullable: true })
+  @ResolveField(() => CategoryType)
   category(@Parent() product: ProductType) {
     return this.categoryService.findOne(product.categoryId);
   }
+  @Query(() => [ProductType])
+productsByCategory(@Args('categoryId') categoryId: number) {
+  return this.productService.findByCategory(categoryId);
+}
+
+@Mutation(() => Boolean)
+deleteProduct(@Args('id') id: number) {
+  return this.productService.remove(Number(id));
+}
+  
 }
